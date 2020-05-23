@@ -1,4 +1,7 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import express from 'express'
+import axios from 'axios'
 import path from 'path'
 import cors from 'cors'
 import bodyParser from 'body-parser'
@@ -10,6 +13,9 @@ import cookieParser from 'cookie-parser'
 import Root from '../client/config/root'
 
 import Html from '../client/html'
+
+const { readFile, writeFile, unlink } = require('fs').promises
+const shortid = require('shortid')
 
 let connections = []
 
@@ -25,6 +31,51 @@ const middleware = [
 ]
 
 middleware.forEach((it) => server.use(it))
+
+const saveTasks = async (category, tasks) => {
+  return writeFile(`${__dirname}/tasks/${category}.json`, JSON.stringify(tasks), {
+    encoding: 'utf8'
+  })
+}
+
+const readTasks = async (category) => {
+  return readFile(`${__dirname}/tasks/${category}.json`, { encoding: 'utf8' })
+    .then((data) => JSON.parse(data))
+    .catch(async () => {
+      return []
+    })
+}
+
+server.get('/api/v1/tasks/:category', async (req, res) => {
+  const { category } = req.params
+  const allTasks = await readTasks(category)
+  const workingTasks = allTasks
+    // eslint-disable-next-line no-underscore-dangle
+    .filter((task) => task._isDeleted === true)
+  res.json(workingTasks)
+})
+
+server.post('/api/v1/tasks/:category', async (req, res) => {
+  // берём категорию задач
+  const { category } = req.params
+  // создаём новую задачу
+  const newTask = {
+    id: shortid.generate(),
+    title: req.body.title,
+    status: 'new',
+    _isDeleted: false,
+    _createdAt: +new Date(),
+    _deletedAt: null
+  }
+  // берём массив прошлых задач из заданной категории или возвращаем пустой
+  const arr = await readTasks(category)
+  // добавляем новую задачу в массив
+  const addTasks = [...arr, newTask]
+  // сохраняем массив задач в файл нужной категории
+  saveTasks(category, addTasks)
+  // возвращаем статус запроса
+  res.json({ status: 'success', id: newTask.id })
+})
 
 server.use('/api/', (req, res) => {
   res.status(404)
@@ -73,5 +124,4 @@ const app = server.listen(port)
 
 echo.installHandlers(app, { prefix: '/ws' })
 
-// eslint-disable-next-line no-console
 console.log(`Serving at http://localhost:${port}`)
