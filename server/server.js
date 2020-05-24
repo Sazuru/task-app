@@ -59,7 +59,30 @@ server.get('/api/v1/tasks/:category', async (req, res) => {
       return { ...acc, [field]: task[field] }
     }, {})
   })
+  res.json(result)
+})
 
+server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
+  const { category, timespan } = req.params
+  const allTasks = await readTasks(category)
+  const periodOfTime = (() => {
+    if (timespan === 'day') return 1000 * 60 * 60 * 24
+    if (timespan === 'week') return 7 * 1000 * 60 * 60 * 24
+    if (timespan === 'month') return 30 * 1000 * 60 * 60 * 24
+    return null
+  })()
+
+  const filteredTasks = allTasks.filter(
+    (task) => task._isDeleted !== true && task._createdAt + periodOfTime > Math.floor(Date.now())
+  )
+  const result = filteredTasks.map((task) => {
+    return Object.keys(task).reduce((acc, field) => {
+      if (field[0] === '_') {
+        return acc
+      }
+      return { ...acc, [field]: task[field] }
+    }, {})
+  })
   res.json(result)
 })
 
@@ -72,7 +95,7 @@ server.post('/api/v1/tasks/:category', async (req, res) => {
     title: req.body.title,
     status: 'new',
     _isDeleted: false,
-    _createdAt: +new Date(),
+    _createdAt: Date.now(),
     _deletedAt: null
   }
   // берём массив прошлых задач из заданной категории или возвращаем пустой
@@ -92,7 +115,7 @@ server.delete('/api/v1/tasks/:category/:id', async (req, res) => {
   const allTasks = await readTasks(category)
   // находим нужную задачу по id, выставляем значение ключа _isDeleted в true, создаем дату удаления
   const updatedTasks = allTasks.map((task) =>
-    task.taskId === id ? { ...task, _isDeleted: true, _deletedAt: +new Date() } : task
+    task.taskId === id ? { ...task, _isDeleted: true, _deletedAt: Date.now() } : task
   )
   // сохраняем новый массив
   saveTasks(category, updatedTasks)
