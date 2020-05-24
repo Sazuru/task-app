@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 import express from 'express'
@@ -49,10 +50,17 @@ const readTasks = async (category) => {
 server.get('/api/v1/tasks/:category', async (req, res) => {
   const { category } = req.params
   const allTasks = await readTasks(category)
-  const workingTasks = allTasks
-    // eslint-disable-next-line no-underscore-dangle
-    .filter((task) => task._isDeleted === true)
-  res.json(workingTasks)
+  const filteredTasks = allTasks.filter((task) => task._isDeleted !== true)
+  const result = filteredTasks.map((task) => {
+    return Object.keys(task).reduce((acc, field) => {
+      if (field[0] === '_') {
+        return acc
+      }
+      return { ...acc, [field]: task[field] }
+    }, {})
+  })
+
+  res.json(result)
 })
 
 server.post('/api/v1/tasks/:category', async (req, res) => {
@@ -60,7 +68,7 @@ server.post('/api/v1/tasks/:category', async (req, res) => {
   const { category } = req.params
   // создаём новую задачу
   const newTask = {
-    id: shortid.generate(),
+    taskId: shortid.generate(),
     title: req.body.title,
     status: 'new',
     _isDeleted: false,
@@ -68,13 +76,28 @@ server.post('/api/v1/tasks/:category', async (req, res) => {
     _deletedAt: null
   }
   // берём массив прошлых задач из заданной категории или возвращаем пустой
-  const arr = await readTasks(category)
+  const allTasks = await readTasks(category)
   // добавляем новую задачу в массив
-  const addTasks = [...arr, newTask]
+  const addTasks = [...allTasks, newTask]
   // сохраняем массив задач в файл нужной категории
   saveTasks(category, addTasks)
   // возвращаем статус запроса
-  res.json({ status: 'success', id: newTask.id })
+  res.json({ status: 'success', id: newTask.taskId })
+})
+
+server.delete('/api/v1/tasks/:category/:id', async (req, res) => {
+  // берём категорию задач и нужный id
+  const { category, id } = req.params
+  // берём массив прошлых задач из заданной категории или возвращаем пустой
+  const allTasks = await readTasks(category)
+  // находим нужную задачу по id
+  const deletedTask = allTasks.find((task) => task.taskId === id)
+  // выставляем значение ключа _isDeleted в true
+  deletedTask._isDeleted = true
+  // сохраняем новый массив
+  saveTasks(category, allTasks)
+  // возвращаем статус запроса и id удалённой задачи
+  res.json({ status: 'Successfully deleted', id })
 })
 
 server.use('/api/', (req, res) => {
