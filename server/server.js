@@ -1,8 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 import express from 'express'
-import axios from 'axios'
 import path from 'path'
 import cors from 'cors'
 import bodyParser from 'body-parser'
@@ -15,7 +12,7 @@ import Root from '../client/config/root'
 
 import Html from '../client/html'
 
-const { readFile, writeFile, unlink } = require('fs').promises
+const { readFile, writeFile, readdir } = require('fs').promises
 const shortid = require('shortid')
 
 let connections = []
@@ -46,6 +43,23 @@ const readTasks = async (category) => {
       return []
     })
 }
+
+const listTasks = async () => {
+  // читаем список файлов в папке tasks
+  return (
+    readdir(`${__dirname}/tasks/`)
+      // убираем расширение .json у каждого элемента массива
+      .then((data) => data.map((list) => list.slice(0, -5)))
+      .catch(async () => {
+        return []
+      })
+  )
+}
+
+server.get('/api/v1/categories', async (req, res) => {
+  const tasks = await listTasks()
+  res.json(tasks)
+})
 
 server.get('/api/v1/tasks/:category', async (req, res) => {
   // берём категорию задач
