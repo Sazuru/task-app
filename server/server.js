@@ -48,9 +48,13 @@ const readTasks = async (category) => {
 }
 
 server.get('/api/v1/tasks/:category', async (req, res) => {
+  // берём категорию задач
   const { category } = req.params
+  // берём массив прошлых задач из заданной категории или возвращаем пустой
   const allTasks = await readTasks(category)
+  // фильтруем список задач по статусу _isDeleted
   const filteredTasks = allTasks.filter((task) => task._isDeleted !== true)
+  // возвращаем список задач без полей, начинающихся с "_"
   const result = filteredTasks.map((task) => {
     return Object.keys(task).reduce((acc, field) => {
       if (field[0] === '_') {
@@ -59,22 +63,27 @@ server.get('/api/v1/tasks/:category', async (req, res) => {
       return { ...acc, [field]: task[field] }
     }, {})
   })
+  // возвращаем статус запроса
   res.status(200).json(result)
 })
 
 server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
+  // берём категорию задач и время для фильтра
   const { category, timespan } = req.params
+  // берём массив прошлых задач из заданной категории или возвращаем пустой
   const allTasks = await readTasks(category)
+  // задаём переменную в зависимости от времени для фильтра
   const periodOfTime = (() => {
     if (timespan === 'day') return 1000 * 60 * 60 * 24
     if (timespan === 'week') return 7 * 1000 * 60 * 60 * 24
     if (timespan === 'month') return 30 * 1000 * 60 * 60 * 24
     return null
   })()
-
+  // фильтруем список задач по статусу _isDeleted и фильтруем по дате создания
   const filteredTasks = allTasks.filter(
     (task) => task._isDeleted !== true && task._createdAt + periodOfTime > Date.now()
   )
+  // возвращаем список задач без полей, начинающихся с "_"
   const result = filteredTasks.map((task) => {
     return Object.keys(task).reduce((acc, field) => {
       if (field[0] === '_') {
@@ -83,11 +92,12 @@ server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
       return { ...acc, [field]: task[field] }
     }, {})
   })
+  // возвращаем статус запроса
   res.status(200).json(result)
 })
 
 server.post('/api/v1/tasks/:category', async (req, res) => {
-  // берём категорию задач
+  // берём категорию задачи
   const { category } = req.params
   // создаём новую задачу
   const newTask = {
@@ -109,17 +119,26 @@ server.post('/api/v1/tasks/:category', async (req, res) => {
 })
 
 server.patch('/api/v1/tasks/:category/:id', async (req, res) => {
+  // берём категорию и id задачи
   const { category, id } = req.params
+  // создаём массив разрешённых статусов
   const acceptableStatus = ['done', 'new', 'in progress', 'blocked']
+  // получаем новый статус задачи
   const newStatus = req.body.status.toLowerCase()
+  // проверяем условие наличия нового статуса в списке разрешённых
   if (acceptableStatus.includes(newStatus)) {
+    // берём массив прошлых задач из заданной категории или возвращаем пустой
     const allTasks = await readTasks(category)
+    // обновляем статус задачи
     const updatedTasks = allTasks.map((task) =>
       task.taskId === id ? { ...task, status: newStatus } : task
     )
+    // сохраняем массив задач в файл нужной категории
     saveTasks(category, updatedTasks)
+    // возвращаем статус запроса
     res.status(200).json({ status: 'Status successfully updated', id })
   }
+  // возвращаем ошибку
   res.status(501).json({ status: 'error', message: 'Incorrect status' })
 })
 
