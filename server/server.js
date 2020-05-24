@@ -59,7 +59,7 @@ server.get('/api/v1/tasks/:category', async (req, res) => {
       return { ...acc, [field]: task[field] }
     }, {})
   })
-  res.json(result)
+  res.status(200).json(result)
 })
 
 server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
@@ -73,7 +73,7 @@ server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
   })()
 
   const filteredTasks = allTasks.filter(
-    (task) => task._isDeleted !== true && task._createdAt + periodOfTime > Math.floor(Date.now())
+    (task) => task._isDeleted !== true && task._createdAt + periodOfTime > Date.now()
   )
   const result = filteredTasks.map((task) => {
     return Object.keys(task).reduce((acc, field) => {
@@ -83,7 +83,7 @@ server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
       return { ...acc, [field]: task[field] }
     }, {})
   })
-  res.json(result)
+  res.status(200).json(result)
 })
 
 server.post('/api/v1/tasks/:category', async (req, res) => {
@@ -105,7 +105,22 @@ server.post('/api/v1/tasks/:category', async (req, res) => {
   // сохраняем массив задач в файл нужной категории
   saveTasks(category, addTasks)
   // возвращаем статус запроса
-  res.json({ status: 'success', id: newTask.taskId })
+  res.status(200).json({ status: 'success', id: newTask.taskId })
+})
+
+server.patch('/api/v1/tasks/:category/:id', async (req, res) => {
+  const { category, id } = req.params
+  const acceptableStatus = ['done', 'new', 'in progress', 'blocked']
+  const newStatus = req.body.status.toLowerCase()
+  if (acceptableStatus.includes(newStatus)) {
+    const allTasks = await readTasks(category)
+    const updatedTasks = allTasks.map((task) =>
+      task.taskId === id ? { ...task, status: newStatus } : task
+    )
+    saveTasks(category, updatedTasks)
+    res.status(200).json({ status: 'Status successfully updated', id })
+  }
+  res.status(501).json({ status: 'error', message: 'Incorrect status' })
 })
 
 server.delete('/api/v1/tasks/:category/:id', async (req, res) => {
