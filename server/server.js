@@ -90,12 +90,12 @@ server.delete('/api/v1/tasks/:category/:id', async (req, res) => {
   const { category, id } = req.params
   // берём массив прошлых задач из заданной категории или возвращаем пустой
   const allTasks = await readTasks(category)
-  // находим нужную задачу по id
-  const deletedTask = allTasks.find((task) => task.taskId === id)
-  // выставляем значение ключа _isDeleted в true
-  deletedTask._isDeleted = true
+  // находим нужную задачу по id, выставляем значение ключа _isDeleted в true, создаем дату удаления
+  const updatedTasks = allTasks.map((task) =>
+    task.taskId === id ? { ...task, _isDeleted: true, _deletedAt: +new Date() } : task
+  )
   // сохраняем новый массив
-  saveTasks(category, allTasks)
+  saveTasks(category, updatedTasks)
   // возвращаем статус запроса и id удалённой задачи
   res.json({ status: 'Successfully deleted', id })
 })
