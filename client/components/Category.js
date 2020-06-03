@@ -5,7 +5,6 @@ import Header from './Header'
 export default function Category() {
   const { category } = useParams()
   const [taskList, setTaskList] = useState([])
-  console.log(taskList)
 
   useEffect(() => {
     fetch(`http://localhost:8090/api/v1/tasks/${category}`)
@@ -16,7 +15,7 @@ export default function Category() {
   }, [category])
   return (
     <div>
-      <Header />
+      <Header category={category} />
       <div className="h-screen w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
         {taskList.map((task) => {
           return (

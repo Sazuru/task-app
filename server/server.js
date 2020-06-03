@@ -218,4 +218,5 @@ const app = server.listen(port)
 
 echo.installHandlers(app, { prefix: '/ws' })
 
+// eslint-disable-next-line no-console
 console.log(`Serving at http://localhost:${port}`)
