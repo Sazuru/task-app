@@ -74,8 +74,7 @@ const Root = (props) => {
       <ScillcrucialRouter history={history} location={props.location} context={props.context}>
         <Startup>
           <Switch>
-            <Route exact path="/" component={() => <DummyView />} />
-            <Route exact path="/categories" component={() => <Categories />} />
+            <Route exact path={'/' || '/categories'} component={() => <Categories />} />
             <Route exact path="/:category" component={() => <Category />} />
             <PrivateRoute exact path="/hidden-route" component={() => <DummyView />} />
             <Route component={() => <NotFound />} />

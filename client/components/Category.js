@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import Header from './Header'
 
 export default function Category() {
   const { category } = useParams()
@@ -15,14 +16,22 @@ export default function Category() {
   }, [category])
   return (
     <div>
-      {taskList.map((task) => {
-        return (
-          <div key={task.taskId}>
-            {task.title}
-            {task.status}
-          </div>
-        )
-      })}
+      <Header />
+      <div className="h-screen w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
+        {taskList.map((task) => {
+          return (
+            <div
+              key={task.taskId}
+              className="card relative h-32 max-w-lg bg-teal-200 w-full mb-4 mr-4 shadow-xl sm:w-5/12 lg:w-3/12"
+            >
+              <div className="flex justify-between overflow-hidden px-3 py-4">
+                <div className="font-bold text-base tracking-widest">{task.title}</div>
+                <div>{task.status}</div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
