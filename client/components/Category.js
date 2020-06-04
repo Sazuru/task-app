@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Header from './Header'
+import TaskButton from './TaskButton'
 
 export default function Category() {
   const { category } = useParams()
@@ -25,7 +26,8 @@ export default function Category() {
             >
               <div className="flex justify-between overflow-hidden px-3 py-4">
                 <div className="font-bold text-base tracking-widest">{task.title}</div>
-                <div>{task.status}</div>
+                <div className="font-bold text-base tracking-widest">{task.status}</div>
+                <TaskButton task={task} />
               </div>
             </div>
           )
