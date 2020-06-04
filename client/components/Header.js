@@ -19,7 +19,7 @@ export default function Header({ category }) {
             onClick={() => history.push('/')}
           >
             back to Home
-          </button>{' '}
+          </button>
         </nav>
       </div>
     </div>
