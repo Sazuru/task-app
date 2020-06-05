@@ -42,14 +42,14 @@ export default function TaskButton({ task }) {
         <button
           type="button"
           onClick={() => setStatus('blocked')}
-          className="bg-transparent hover:bg-red-500 text-gray-900 border border-red-500 border-r-0 hover:border-transparent font-semibold py-2 px-4 rounded-l"
+          className="bg-transparent hover:bg-red-500 text-gray-900 border border-red-500 hover:border-transparent font-semibold py-2 px-4 rounded"
         >
           Blocked
         </button>
         <button
           type="button"
           onClick={() => setStatus('done')}
-          className="bg-transparent hover:bg-green-500 text-gray-900 border border-green-500 border-l-0 hover:border-transparent font-semibold py-2 px-4 rounded-r"
+          className="bg-transparent hover:bg-green-500 text-gray-900 border border-green-500 hover:border-transparent font-semibold py-2 px-4 rounded"
         >
           Done
         </button>

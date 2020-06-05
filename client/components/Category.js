@@ -20,17 +20,27 @@ export default function Category() {
       <div className="h-screen w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
         {taskList.map((task) => {
           return (
-            <div
-              key={task.taskId}
-              className="card relative h-32 max-w-lg bg-teal-200 w-full mb-4 mr-4 shadow-xl sm:w-5/12 lg:w-3/12"
-            >
-              <div className="flex justify-between overflow-hidden px-3 py-4">
-                <div className="font-bold text-base tracking-widest">{task.title}</div>
-                <div className="font-bold text-base tracking-widest">
-                  Current status: {task.status}
-                </div>
-                <TaskButton task={task} />
-              </div>
+            <div key={task.taskId} className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+              <article className="overflow-hidden rounded-lg shadow-lg">
+                <span>
+                  <img
+                    alt="Placeholder"
+                    className="block w-full"
+                    src="https://picsum.photos/600/300/?random"
+                  />
+                </span>
+                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                  <h1 className="text-lg">
+                    <a className="no-underline hover:underline text-black" href="#">
+                      {task.title}
+                    </a>
+                  </h1>
+                  <p className="text-grey-darker text-sm">11/1/19</p>
+                </header>
+                <footer className="flex items-center justify-between leading-none p-2 md:p-4">
+                  <TaskButton task={task} />
+                </footer>
+              </article>
             </div>
           )
         })}
