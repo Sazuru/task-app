@@ -26,7 +26,9 @@ export default function Category() {
             >
               <div className="flex justify-between overflow-hidden px-3 py-4">
                 <div className="font-bold text-base tracking-widest">{task.title}</div>
-                <div className="font-bold text-base tracking-widest">{task.status}</div>
+                <div className="font-bold text-base tracking-widest">
+                  Current status: {task.status}
+                </div>
                 <TaskButton task={task} />
               </div>
             </div>

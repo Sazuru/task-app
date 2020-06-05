@@ -138,7 +138,7 @@ server.patch('/api/v1/tasks/:category/:id', async (req, res) => {
   // создаём массив разрешённых статусов
   const acceptableStatus = ['done', 'new', 'in progress', 'blocked']
   // получаем новый статус задачи
-  const newStatus = req.body.status.toLowerCase()
+  const newStatus = req.body.status
   // проверяем условие наличия нового статуса в списке разрешённых
   if (acceptableStatus.includes(newStatus)) {
     // берём массив прошлых задач из заданной категории или возвращаем пустой
@@ -150,7 +150,7 @@ server.patch('/api/v1/tasks/:category/:id', async (req, res) => {
     // сохраняем массив задач в файл нужной категории
     saveTasks(category, updatedTasks)
     // возвращаем статус запроса
-    res.status(200).json({ status: 'Status successfully updated', id })
+    res.status(200).json({ status: 'Status successfully updated', newStatus, id })
   }
   // возвращаем ошибку
   res.status(501).json({ status: 'error', message: 'Incorrect status' })
