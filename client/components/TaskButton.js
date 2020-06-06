@@ -44,7 +44,7 @@ export default function TaskButton({ task }) {
           onClick={() => setStatus('blocked')}
           className="bg-transparent hover:bg-red-500 text-gray-900 border border-red-500 hover:border-transparent font-semibold py-2 px-4 rounded"
         >
-          Blocked
+          Block
         </button>
         <button
           type="button"
@@ -67,4 +67,12 @@ export default function TaskButton({ task }) {
       </button>
     )
   }
+  return (
+    <div className="flex justify-between w-full bg-teal-100 rounded text-teal-900 px-4 py-3 shadow-md font-semibold">
+      Task completed
+      <button type="button" onClick={() => setStatus('in progress')}>
+        <img className="h-4" src="images/back.svg" alt="return back" />
+      </button>
+    </div>
+  )
 }
