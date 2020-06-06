@@ -1,9 +1,18 @@
 import React from 'react'
+import { Switch, Route } from 'react-router-dom'
+
+import Categories from './Categories'
+import Category from './Category'
+import NotFound from './404'
 
 const Home = () => {
   return (
-    <div className="h-screen w-full flex flex-wrap flex-col items-center bg-white mb-4 mx-4 sm:flex-row sm:justify-around">
-      123
+    <div>
+      <Switch>
+        <Route exact path={'/' || '/categories'} component={() => <Categories />} />
+        <Route exact path="/:category" component={() => <Category />} />
+        <Route component={() => <NotFound />} />
+      </Switch>
     </div>
   )
 }

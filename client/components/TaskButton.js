@@ -1,30 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React from 'react'
 
-export default function TaskButton({ task }) {
-  const { category } = useParams()
-  const [status, setStatus] = useState(task.status)
-
-  useEffect(() => {
-    const myHeaders = new Headers()
-    myHeaders.append('Content-Type', 'application/json')
-
-    const raw = JSON.stringify({ status })
-
-    const requestOptions = {
-      method: 'PATCH',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    }
-
-    fetch(`http://localhost:8090/api/v1/tasks/${category}/${task.taskId}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error))
-  }, [category, status, task.taskId])
-
+export default function TaskButton({ status, setStatus }) {
   if (status === 'new') {
     return (
       <button
@@ -68,10 +45,10 @@ export default function TaskButton({ task }) {
     )
   }
   return (
-    <div className="flex justify-between w-full bg-teal-100 rounded text-teal-900 px-4 py-3 shadow-md font-semibold">
+    <div className="flex justify-between w-full bg-teal-100 rounded text-teal-900 px-4 py-2 shadow-md font-semibold">
       Task completed
       <button type="button" onClick={() => setStatus('in progress')}>
-        <img className="h-4" src="images/back.svg" alt="return back" />
+        <img className="h-3" src="images/back.svg" alt="return back" />
       </button>
     </div>
   )

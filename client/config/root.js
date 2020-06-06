@@ -9,11 +9,12 @@ import store, { history } from '../redux'
 
 // import Home from '../components/home'
 import DummyView from '../components/dummy-view'
-import NotFound from '../components/404'
+// import NotFound from '../components/404'
+import Home from '../components/Home'
 
 import Startup from './startup'
-import Categories from '../components/Categories'
-import Category from '../components/Category'
+// import Categories from '../components/Categories'
+// import Category from '../components/Category'
 
 const OnlyAnonymousRoute = ({ component: Component, ...rest }) => {
   const func = (props) =>
@@ -74,10 +75,11 @@ const Root = (props) => {
       <ScillcrucialRouter history={history} location={props.location} context={props.context}>
         <Startup>
           <Switch>
-            <Route exact path={'/' || '/categories'} component={() => <Categories />} />
-            <Route exact path="/:category" component={() => <Category />} />
+            <Route path="/" component={() => <Home />} />
+            {/* <Route exact path={'/' || '/categories'} component={() => <Categories />} /> */}
+            {/* <Route exact path="/:category" component={() => <Category />} /> */}
             <PrivateRoute exact path="/hidden-route" component={() => <DummyView />} />
-            <Route component={() => <NotFound />} />
+            {/* <Route component={() => <NotFound />} /> */}
           </Switch>
         </Startup>
       </ScillcrucialRouter>
