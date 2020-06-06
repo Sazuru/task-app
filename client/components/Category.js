@@ -25,7 +25,7 @@ export default function Category() {
                 <span>
                   <img
                     alt="Placeholder"
-                    className="block w-full"
+                    className="block w-full h-48 bg-teal-100"
                     src="https://picsum.photos/600/300/?random"
                   />
                 </span>

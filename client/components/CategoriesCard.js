@@ -7,7 +7,7 @@ export default function CategoriesCard({ category }) {
       <article className="overflow-hidden rounded shadow">
         <span>
           <img
-            className="w-full"
+            className="w-full h-40 bg-teal-100"
             src="https://source.unsplash.com/random/600x300"
             alt="Placeholder"
           />

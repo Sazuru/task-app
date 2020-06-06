@@ -35,6 +35,7 @@
     "prettier/prettier": ["warn"],
     "space-before-function-paren": "off",
     "no-unused-vars":"warn",
+    "no-console":"off",
     "react/prefer-stateless-function": "warn",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "jsx-a11y/anchor-is-valid": "off",
