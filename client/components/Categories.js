@@ -18,7 +18,7 @@ export default function Categories() {
   return (
     <div>
       <Header />
-      <div className="h-screen w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
+      <div className="flex flex-wrap flex-col items-center bg-white mb-4 mx-4 sm:flex-row sm:justify-around">
         {categories.map((category) => {
           return <CategoriesCard key={shortid.generate()} category={category} />
         })}

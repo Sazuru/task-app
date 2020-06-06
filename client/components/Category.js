@@ -19,7 +19,7 @@ export default function Category() {
   return (
     <div>
       <Header category={category} />
-      <div className="h-screen w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
+      <div className="w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
         {taskList.map((task) => {
           return <CategoryCard key={task.taskId} task={task} category={category} />
         })}
