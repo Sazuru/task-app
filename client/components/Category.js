@@ -9,6 +9,7 @@ export default function Category() {
   const { category } = useParams()
   const [taskList, setTaskList] = useState([])
   const [newTask, setNewTask] = useState('')
+  const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
     fetch(`http://localhost:8090/api/v1/tasks/${category}`)
@@ -16,7 +17,7 @@ export default function Category() {
       // eslint-disable-next-line no-console
       .catch((e) => console.error(e))
       .then(setTaskList)
-  }, [category])
+  }, [category, refresh])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -39,6 +40,9 @@ export default function Category() {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error))
+
+    setNewTask('')
+    setRefresh(!refresh)
   }
 
   return (
