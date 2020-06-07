@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import TaskButton from './TaskButton'
+import InlineEdit from './InlineEdit'
 
 export default function CategoryCard({ task, category, setRefresh }) {
   const [status, setStatus] = useState(task.status)
+  const [storedTitle, setStoredTitle] = useState(task.title)
+
+  const firstRender = useRef(true)
 
   useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false // it's no longer the first render
+      return // skip the code below
+    }
+
     const myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
 
@@ -55,8 +64,14 @@ export default function CategoryCard({ task, category, setRefresh }) {
         </span>
         <header className="flex items-center justify-between leading-tight p-2 md:p-4">
           <h2 className="text-lg">
-            <span className="text-black">{task.title}</span>
+            {/* <span className="text-black">{task.title}</span> */}
+            <InlineEdit
+              className="text-black"
+              text={storedTitle}
+              onSetText={(text) => setStoredTitle(text)}
+            />
           </h2>
+          <p className="text-grey-darker text-sm">id: {task.taskId}</p>
           <p className="text-grey-darker text-sm">status: {status}</p>
         </header>
         <footer className="flex items-center justify-between h-16 leading-none p-2 md:p-4">
