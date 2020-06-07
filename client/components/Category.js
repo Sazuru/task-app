@@ -17,32 +17,35 @@ export default function Category() {
       // eslint-disable-next-line no-console
       .catch((e) => console.error(e))
       .then(setTaskList)
+    setRefresh(false)
   }, [category, refresh])
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const myHeaders = new Headers()
-    myHeaders.append('Content-Type', 'application/json')
+    if (newTask.length > 0) {
+      const myHeaders = new Headers()
+      myHeaders.append('Content-Type', 'application/json')
 
-    const raw = JSON.stringify({ title: `${newTask}` })
-    console.log(newTask)
-    console.log(raw)
+      const raw = JSON.stringify({ title: `${newTask}` })
+      console.log(newTask)
+      console.log(raw)
 
-    const requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      }
+
+      fetch(`http://localhost:8090/api/v1/tasks/${category}`, requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log('error', error))
+
+      setNewTask('')
+      setRefresh(true)
     }
-
-    fetch(`http://localhost:8090/api/v1/tasks/${category}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error))
-
-    setNewTask('')
-    setRefresh(!refresh)
   }
 
   return (
@@ -51,7 +54,14 @@ export default function Category() {
       <NewTask newTask={newTask} setNewTask={setNewTask} handleSubmit={handleSubmit} />
       <div className="w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
         {taskList.map((task) => {
-          return <CategoryCard key={task.taskId} task={task} category={category} />
+          return (
+            <CategoryCard
+              key={task.taskId}
+              task={task}
+              category={category}
+              setRefresh={setRefresh}
+            />
+          )
         })}
       </div>
       <NewTask newTask={newTask} setNewTask={setNewTask} handleSubmit={handleSubmit} />

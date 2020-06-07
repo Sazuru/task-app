@@ -6,11 +6,11 @@ export default function NewTask({ newTask, setNewTask, handleSubmit }) {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Новая задача"
+          placeholder="New task"
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
         />
-        <button type="submit">Добавить</button>
+        <button type="submit">Add new task</button>
       </form>
     </div>
   )

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import TaskButton from './TaskButton'
 
-export default function CategoryCard({ task, category }) {
+export default function CategoryCard({ task, category, setRefresh }) {
   const [status, setStatus] = useState(task.status)
 
   useEffect(() => {
@@ -40,6 +40,7 @@ export default function CategoryCard({ task, category }) {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error))
+    setRefresh(true)
   }
 
   return (

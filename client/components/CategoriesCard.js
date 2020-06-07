@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 
 export default function CategoriesCard({ category }) {
   return (
-    <div className="relative max-w-lg bg-white w-full mb-4 mr-4 shadow-xl sm:w-5/12 lg:w-3/12">
-      <article className="overflow-hidden rounded shadow">
+    <div className="relative max-w-lg bg-white w-full mb-4 mr-4 rounded shadow-xl sm:w-5/12 lg:w-3/12">
+      <article className="overflow-hidden rounded shadow bg-white">
         <span>
           <img
-            className="w-full h-40 bg-teal-100"
+            className="placeholder-image w-full h-40"
             src="https://source.unsplash.com/random/600x300"
             alt="Placeholder"
           />
