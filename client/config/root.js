@@ -7,14 +7,9 @@ import { Switch, Route, Redirect, StaticRouter } from 'react-router-dom'
 
 import store, { history } from '../redux'
 
-// import Home from '../components/home'
 import DummyView from '../components/dummy-view'
-// import NotFound from '../components/404'
-import Home from '../components/Home'
-
+import Home from '../components/home'
 import Startup from './startup'
-// import Categories from '../components/Categories'
-// import Category from '../components/Category'
 
 const OnlyAnonymousRoute = ({ component: Component, ...rest }) => {
   const func = (props) =>
