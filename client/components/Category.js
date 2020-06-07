@@ -10,6 +10,7 @@ export default function Category() {
   const [taskList, setTaskList] = useState([])
   const [newTask, setNewTask] = useState('')
   const [refresh, setRefresh] = useState(false)
+  const [errorName, setErrorName] = useState(false)
 
   useEffect(() => {
     fetch(`http://localhost:8090/api/v1/tasks/${category}`)
@@ -23,35 +24,41 @@ export default function Category() {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (newTask.length > 0) {
-      const myHeaders = new Headers()
-      myHeaders.append('Content-Type', 'application/json')
-
-      const raw = JSON.stringify({ title: `${newTask}` })
-      console.log(newTask)
-      console.log(raw)
-
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      }
-
-      fetch(`http://localhost:8090/api/v1/tasks/${category}`, requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log('error', error))
-
-      setNewTask('')
-      setRefresh(true)
+    if (newTask.length === 0) {
+      setErrorName(true)
+      return
     }
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+
+    const raw = JSON.stringify({ title: `${newTask}` })
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    }
+
+    fetch(`http://localhost:8090/api/v1/tasks/${category}`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error))
+
+    setNewTask('')
+    setRefresh(true)
+    setErrorName(false)
   }
 
   return (
     <div>
       <Header category={category} />
-      <NewTask newTask={newTask} setNewTask={setNewTask} handleSubmit={handleSubmit} />
+      <NewTask
+        newTask={newTask}
+        setNewTask={setNewTask}
+        handleSubmit={handleSubmit}
+        error={errorName}
+      />
       <div className="w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
         {taskList.map((task) => {
           return (
@@ -64,7 +71,12 @@ export default function Category() {
           )
         })}
       </div>
-      <NewTask newTask={newTask} setNewTask={setNewTask} handleSubmit={handleSubmit} />
+      <NewTask
+        newTask={newTask}
+        setNewTask={setNewTask}
+        handleSubmit={handleSubmit}
+        error={errorName}
+      />
     </div>
   )
 }
