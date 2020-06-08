@@ -64,7 +64,6 @@ export default function CategoryCard({ task, category, setRefresh }) {
         </span>
         <header className="flex items-center justify-between leading-tight p-2 md:p-4">
           <h2 className="text-lg">
-            {/* <span className="text-black">{task.title}</span> */}
             <InlineEdit
               className="text-black"
               text={storedTitle}

@@ -91,11 +91,13 @@ server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
     if (timespan === 'day') return 1000 * 60 * 60 * 24
     if (timespan === 'week') return 7 * 1000 * 60 * 60 * 24
     if (timespan === 'month') return 30 * 1000 * 60 * 60 * 24
-    return null
+    return 'all'
   })()
   // фильтруем список задач по статусу _isDeleted и фильтруем по дате создания
-  const filteredTasks = allTasks.filter(
-    (task) => task._isDeleted !== true && task._createdAt + periodOfTime > Date.now()
+  const filteredTasks = allTasks.filter((task) =>
+    task._isDeleted !== true && periodOfTime !== 'all'
+      ? task._createdAt + periodOfTime > Date.now()
+      : true
   )
   // возвращаем список задач без полей, начинающихся с "_"
   const result = filteredTasks.map((task) => {
@@ -139,26 +141,27 @@ server.patch('/api/v1/tasks/:category/:id', async (req, res) => {
   const acceptableStatus = ['done', 'new', 'in progress', 'blocked']
   // получаем новый статус задачи
   const newStatus = req.body.status
+  // получаем новое название задачи
   const newTitle = req.body.title
   if (newTitle.length === 0) {
     // возвращаем ошибку
-    res.status(501).json({ status: 'error', message: 'Incorrect title' })
+    return res.status(501).json({ status: 'error', message: 'Incorrect title' })
   }
   // проверяем условие наличия нового статуса в списке разрешённых
   if (acceptableStatus.includes(newStatus)) {
     // берём массив прошлых задач из заданной категории или возвращаем пустой
     const allTasks = await readTasks(category)
-    // обновляем статус задачи
+    // обновляем статус и название задачи
     const updatedTasks = allTasks.map((task) =>
       task.taskId === id ? { ...task, status: newStatus, title: newTitle } : task
     )
     // сохраняем массив задач в файл нужной категории
     saveTasks(category, updatedTasks)
     // возвращаем статус запроса
-    res.status(200).json({ status: 'Successfully updated', newStatus, newTitle, id })
+    return res.status(200).json({ status: 'Successfully updated', newStatus, newTitle, id })
   }
   // возвращаем ошибку
-  res.status(501).json({ status: 'error', message: 'Incorrect status' })
+  return res.status(501).json({ status: 'error', message: 'Incorrect status' })
 })
 
 // server.patch('/api/v1/tasks/:category/:id', async (req, res) => {
