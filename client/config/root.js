@@ -8,7 +8,7 @@ import { Switch, Route, Redirect, StaticRouter } from 'react-router-dom'
 import store, { history } from '../redux'
 
 import DummyView from '../components/dummy-view'
-import Home from '../components/home'
+import Home from '../pages/home'
 import Startup from './startup'
 
 const OnlyAnonymousRoute = ({ component: Component, ...rest }) => {
@@ -71,10 +71,7 @@ const Root = (props) => {
         <Startup>
           <Switch>
             <Route path="/" component={() => <Home />} />
-            {/* <Route exact path={'/' || '/categories'} component={() => <Categories />} /> */}
-            {/* <Route exact path="/:category" component={() => <Category />} /> */}
             <PrivateRoute exact path="/hidden-route" component={() => <DummyView />} />
-            {/* <Route component={() => <NotFound />} /> */}
           </Switch>
         </Startup>
       </ScillcrucialRouter>

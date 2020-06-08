@@ -59,7 +59,6 @@ function InlineEdit(props) {
         style={{ minWidth: `${Math.ceil(inputValue.length)}ch` }}
         value={inputValue}
         onChange={(e) => {
-          // sanitize the input a little
           setInputValue(e.target.value)
         }}
         className={`${isInputActive ? 'block' : 'hidden'}`}

@@ -1,8 +1,8 @@
 import React from 'react'
 import shortid from 'shortid'
 
-import Header from './Header'
-import CategoriesCard from './CategoriesCard'
+import Header from '../components/Header'
+import CategoriesCard from '../components/CategoriesCard'
 
 export default function Categories({ categories }) {
   return (

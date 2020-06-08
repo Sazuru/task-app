@@ -18,7 +18,7 @@ export default function CategoryCard({ task, category, setRefresh }) {
     const myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
 
-    const raw = JSON.stringify({ status })
+    const raw = JSON.stringify({ status, title: storedTitle })
 
     const requestOptions = {
       method: 'PATCH',
@@ -31,7 +31,7 @@ export default function CategoryCard({ task, category, setRefresh }) {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error))
-  }, [category, status, task.taskId])
+  }, [category, status, task.taskId, storedTitle])
 
   const handleDelete = (e) => {
     e.preventDefault()

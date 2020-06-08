@@ -139,22 +139,48 @@ server.patch('/api/v1/tasks/:category/:id', async (req, res) => {
   const acceptableStatus = ['done', 'new', 'in progress', 'blocked']
   // получаем новый статус задачи
   const newStatus = req.body.status
+  const newTitle = req.body.title
+  if (newTitle.length === 0) {
+    // возвращаем ошибку
+    res.status(501).json({ status: 'error', message: 'Incorrect title' })
+  }
   // проверяем условие наличия нового статуса в списке разрешённых
   if (acceptableStatus.includes(newStatus)) {
     // берём массив прошлых задач из заданной категории или возвращаем пустой
     const allTasks = await readTasks(category)
     // обновляем статус задачи
     const updatedTasks = allTasks.map((task) =>
-      task.taskId === id ? { ...task, status: newStatus } : task
+      task.taskId === id ? { ...task, status: newStatus, title: newTitle } : task
     )
     // сохраняем массив задач в файл нужной категории
     saveTasks(category, updatedTasks)
     // возвращаем статус запроса
-    res.status(200).json({ status: 'Status successfully updated', newStatus, id })
+    res.status(200).json({ status: 'Successfully updated', newStatus, newTitle, id })
   }
   // возвращаем ошибку
   res.status(501).json({ status: 'error', message: 'Incorrect status' })
 })
+
+// server.patch('/api/v1/tasks/:category/:id', async (req, res) => {
+//   // берём категорию и id задачи
+//   const { category, id } = req.params
+//   // получаем новый статус задачи
+//   const newTitle = req.body.title
+//   if (newTitle.length === 0) {
+//     // возвращаем ошибку
+//     res.status(501).json({ status: 'error', message: 'Incorrect title' })
+//   }
+//   // берём массив прошлых задач из заданной категории или возвращаем пустой
+//   const allTasks = await readTasks(category)
+//   // обновляем статус задачи
+//   const updatedTasks = allTasks.map((task) =>
+//     task.taskId === id ? { ...task, title: newTitle } : task
+//   )
+//   // сохраняем массив задач в файл нужной категории
+//   saveTasks(category, updatedTasks)
+//   // возвращаем статус запроса
+//   res.status(200).json({ status: 'Title successfully updated', newTitle, id })
+// })
 
 server.delete('/api/v1/tasks/:category/:id', async (req, res) => {
   // берём категорию задач и нужный id

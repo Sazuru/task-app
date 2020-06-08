@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import Header from './Header'
-import CategoryCard from './CategoryCard'
-import NewTask from './NewTask'
+import Header from '../components/Header'
+import CategoryCard from '../components/CategoryCard'
+import NewTask from '../components/NewTask'
 
 export default function Category() {
   const { category } = useParams()
