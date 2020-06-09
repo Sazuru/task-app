@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import Header from '../components/Header'
 import CategoryCard from '../components/CategoryCard'
+import CategorySort from '../components/CategorySort'
 import NewTask from '../components/NewTask'
 
 export default function Category() {
@@ -15,7 +16,6 @@ export default function Category() {
   useEffect(() => {
     fetch(`http://localhost:8090/api/v1/tasks/${category}`)
       .then((response) => response.json())
-      // eslint-disable-next-line no-console
       .catch((e) => console.error(e))
       .then(setTaskList)
     setRefresh(false)
@@ -53,6 +53,7 @@ export default function Category() {
   return (
     <div>
       <Header category={category} />
+      <CategorySort />
       <NewTask
         newTask={newTask}
         setNewTask={setNewTask}

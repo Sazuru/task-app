@@ -70,7 +70,6 @@ export default function CategoryCard({ task, category, setRefresh }) {
               onSetText={(text) => setStoredTitle(text)}
             />
           </h2>
-          <p className="text-grey-darker text-sm">id: {task.taskId}</p>
           <p className="text-grey-darker text-sm">status: {status}</p>
         </header>
         <footer className="flex items-center justify-between h-16 leading-none p-2 md:p-4">
