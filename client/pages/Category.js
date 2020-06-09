@@ -50,34 +50,50 @@ export default function Category() {
     setErrorName(false)
   }
 
+  const handleSort = (timespan) => {
+    fetch(`/api/v1/tasks/${category}/${timespan}`)
+      .then((response) => response.json())
+      .catch((e) => console.error(e))
+      .then(setTaskList)
+    setRefresh(false)
+  }
+
   return (
     <div>
       <Header category={category} />
-      <CategorySort />
+      <CategorySort handleSort={handleSort} />
       <NewTask
         newTask={newTask}
         setNewTask={setNewTask}
         handleSubmit={handleSubmit}
         error={errorName}
       />
-      <div className="w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
-        {taskList.map((task) => {
-          return (
-            <CategoryCard
-              key={task.taskId}
-              task={task}
-              category={category}
-              setRefresh={setRefresh}
-            />
-          )
-        })}
-      </div>
-      <NewTask
-        newTask={newTask}
-        setNewTask={setNewTask}
-        handleSubmit={handleSubmit}
-        error={errorName}
-      />
+      {taskList.length === 0 ? (
+        <p className="w-full h-10 text-xl flex flex-wrap flex-col my-8 items-center bg-white sm:flex-row sm:justify-around">
+          Nothing here, add new task
+        </p>
+      ) : (
+        <>
+          <div className="w-full flex flex-wrap flex-col items-center bg-white sm:flex-row sm:justify-around">
+            {taskList.map((task) => {
+              return (
+                <CategoryCard
+                  key={task.taskId}
+                  task={task}
+                  category={category}
+                  setRefresh={setRefresh}
+                />
+              )
+            })}
+          </div>
+          <NewTask
+            newTask={newTask}
+            setNewTask={setNewTask}
+            handleSubmit={handleSubmit}
+            error={errorName}
+          />{' '}
+        </>
+      )}
     </div>
   )
 }

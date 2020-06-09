@@ -3,9 +3,9 @@ body, html {
 	margin: 0;
 }
 
-// .background {
-// 	background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
-// }
+body {
+	overflow-y:scroll;
+}
 
 .placeholder-image {
 background-color: #21D4FD;
