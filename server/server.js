@@ -94,10 +94,10 @@ server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
     return 'all'
   })()
   // фильтруем список задач по статусу _isDeleted и фильтруем по дате создания
-  const filteredTasks = allTasks.filter((task) =>
-    task._isDeleted !== true && periodOfTime === 'all'
-      ? true
-      : task._createdAt + periodOfTime > Date.now()
+  const filteredTasks = allTasks.filter(
+    (task) =>
+      task._isDeleted !== true &&
+      (periodOfTime === 'all' ? true : task._createdAt + periodOfTime > Date.now())
   )
   // возвращаем список задач без полей, начинающихся с "_"
   const result = filteredTasks.map((task) => {
