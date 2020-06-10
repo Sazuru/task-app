@@ -7,8 +7,8 @@ export default function CategorySort({ handleSort }) {
         <li className="mr-6">
           <button
             type="button"
-            className="text-blue-500 hover:text-blue-800"
-            onClick={() => handleSort('all')}
+            className="text-blue-500 hover:text-blue-700"
+            onClick={(e) => handleSort('all', e)}
           >
             All
           </button>
@@ -17,7 +17,7 @@ export default function CategorySort({ handleSort }) {
           <button
             type="button"
             className="text-blue-500 hover:text-blue-800"
-            onClick={() => handleSort('day')}
+            onClick={(e) => handleSort('day', e)}
           >
             Day
           </button>
@@ -26,7 +26,7 @@ export default function CategorySort({ handleSort }) {
           <button
             type="button"
             className="text-blue-500 hover:text-blue-800"
-            onClick={() => handleSort('week')}
+            onClick={(e) => handleSort('week', e)}
           >
             Week
           </button>
@@ -35,7 +35,7 @@ export default function CategorySort({ handleSort }) {
           <button
             type="button"
             className="text-blue-500 hover:text-blue-800"
-            onClick={() => handleSort('month')}
+            onClick={(e) => handleSort('month', e)}
           >
             Month
           </button>

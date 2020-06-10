@@ -12,6 +12,7 @@ export default function Category() {
   const [newTask, setNewTask] = useState('')
   const [refresh, setRefresh] = useState(false)
   const [errorName, setErrorName] = useState(false)
+  const [addClassName, setAddClassName] = useState('text-blue-900')
 
   useEffect(() => {
     fetch(`http://localhost:8090/api/v1/tasks/${category}`)
@@ -50,12 +51,14 @@ export default function Category() {
     setErrorName(false)
   }
 
-  const handleSort = (timespan) => {
+  const handleSort = (timespan, event) => {
     fetch(`/api/v1/tasks/${category}/${timespan}`)
       .then((response) => response.json())
       .catch((e) => console.error(e))
       .then(setTaskList)
     setRefresh(false)
+    // eslint-disable-next-line no-param-reassign
+    event.target.className = addClassName
   }
 
   return (
