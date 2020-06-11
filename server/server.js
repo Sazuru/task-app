@@ -36,21 +36,21 @@ const saveTasks = async (category, tasks) => {
   })
 }
 
-const readTasks = async (category) => {
+const readTasks = (category) => {
   return readFile(`${__dirname}/tasks/${category}.json`, { encoding: 'utf8' })
     .then((data) => JSON.parse(data))
-    .catch(async () => {
+    .catch(() => {
       return []
     })
 }
 
-const listTasks = async () => {
+const listTasks = () => {
   // читаем список файлов в папке tasks
   return (
     readdir(`${__dirname}/tasks/`)
       // убираем расширение .json у каждого элемента массива
       .then((data) => data.map((list) => list.slice(0, -5)))
-      .catch(async () => {
+      .catch(() => {
         return []
       })
   )
