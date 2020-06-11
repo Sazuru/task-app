@@ -15,7 +15,7 @@ export default function Category() {
   const [addClassName, setAddClassName] = useState('text-blue-900')
 
   useEffect(() => {
-    fetch(`http://localhost:8090/api/v1/tasks/${category}`)
+    fetch(`/api/v1/tasks/${category}`)
       .then((response) => response.json())
       .catch((e) => console.error(e))
       .then(setTaskList)
@@ -41,7 +41,7 @@ export default function Category() {
       redirect: 'follow'
     }
 
-    fetch(`http://localhost:8090/api/v1/tasks/${category}`, requestOptions)
+    fetch(`/api/v1/tasks/${category}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error))

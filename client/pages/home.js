@@ -10,7 +10,7 @@ const Home = () => {
 
   // fetch list of categories
   useEffect(() => {
-    fetch(`http://localhost:8090/api/v1/tasks/categories`)
+    fetch(`/api/v1/tasks/categories`)
       .then((response) => response.json())
       .catch((e) => console.error(e))
       .then(setCategories)

@@ -27,7 +27,7 @@ export default function CategoryCard({ task, category, setRefresh }) {
       redirect: 'follow'
     }
 
-    fetch(`http://localhost:8090/api/v1/tasks/${category}/${task.taskId}`, requestOptions)
+    fetch(`/api/v1/tasks/${category}/${task.taskId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error))
@@ -45,7 +45,7 @@ export default function CategoryCard({ task, category, setRefresh }) {
       redirect: 'follow'
     }
 
-    fetch(`http://localhost:8090/api/v1/tasks/${category}/${task.taskId}`, requestOptions)
+    fetch(`/api/v1/tasks/${category}/${task.taskId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error))
