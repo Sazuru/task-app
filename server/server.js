@@ -56,7 +56,7 @@ const listTasks = () => {
   )
 }
 
-server.get('/api/v1/tasks/categories', async (req, res) => {
+server.get('/api/v1/categories', async (req, res) => {
   const tasks = await listTasks()
   res.json(tasks)
 })
