@@ -16,11 +16,8 @@ const NotFound = () => {
           className="px-4 py-2 text-xs sm:text-sm font-semibold text-gray-900 bg-gray-200 rounded md:mt-0 hover:text-white hover:bg-indigo-500 active:bg-indigo-700 transition duration-150 ease-in-out"
           type="button"
           tabIndex="0"
-          onClick={() => {
-            dispatch(push('/'))
-          }}
+          onClick={() => dispatch(push('/'))}
         >
-          {' '}
           Back to Home
         </button>
       </div>

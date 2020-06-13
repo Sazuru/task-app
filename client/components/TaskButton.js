@@ -7,7 +7,12 @@ export default function TaskButton({ status, setStatus, handleDelete }) {
       <button
         type="button"
         onClick={() => setStatus('in progress')}
-        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+        className="
+        bg-transparent hover:bg-blue-500 
+        text-blue-700 font-semibold 
+        hover:text-white py-2 px-4 
+        border border-blue-500 hover:border-transparent rounded
+        "
       >
         In progress
       </button>
@@ -19,14 +24,18 @@ export default function TaskButton({ status, setStatus, handleDelete }) {
         <button
           type="button"
           onClick={() => setStatus('blocked')}
-          className="bg-transparent hover:bg-red-500 text-gray-900 border border-red-500 hover:border-transparent font-semibold py-2 px-4 rounded"
+          className="bg-transparent hover:bg-red-500 
+          text-gray-900 border border-red-500 
+          hover:border-transparent font-semibold py-2 px-4 rounded"
         >
           Block
         </button>
         <button
           type="button"
           onClick={() => setStatus('done')}
-          className="bg-transparent hover:bg-green-500 text-gray-900 border border-green-500 hover:border-transparent font-semibold py-2 px-4 rounded"
+          className="bg-transparent hover:bg-green-500 text-gray-900 
+          border border-green-500 hover:border-transparent 
+          font-semibold py-2 px-4 rounded"
         >
           Done
         </button>
@@ -39,14 +48,18 @@ export default function TaskButton({ status, setStatus, handleDelete }) {
         <button
           type="button"
           onClick={() => setStatus('in progress')}
-          className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          className="bg-transparent hover:bg-blue-500 text-blue-700 
+          font-semibold hover:text-white py-2 px-4 border 
+          border-blue-500 hover:border-transparent rounded"
         >
           In progress
         </button>
         <form onSubmit={handleDelete}>
           <button
             type="submit"
-            className="bg-transparent hover:bg-red-500 text-gray-900 border border-red-500 hover:border-transparent font-semibold py-2 px-4 rounded"
+            className="bg-transparent hover:bg-red-500 text-gray-900 
+            border border-red-500 hover:border-transparent 
+            font-semibold py-2 px-4 rounded"
           >
             Delete
           </button>

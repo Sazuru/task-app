@@ -19,11 +19,7 @@ const Home = () => {
   return (
     <div className="background w-full h-full">
       <Switch>
-        <Route
-          exact
-          path={'/' || '/categories'}
-          component={() => <Categories categories={categories} />}
-        />
+        <Route exact path="/" component={() => <Categories categories={categories} />} />
         <Route exact path="/:category" component={() => <Category />} />
         <Route component={() => <NotFound />} />
       </Switch>
