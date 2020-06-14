@@ -21,6 +21,7 @@ const Home = () => {
       <Switch>
         <Route exact path="/" component={() => <Categories categories={categories} />} />
         <Route exact path="/:category" component={() => <Category />} />
+        <Route exact path="/:category/:timespan" component={() => <Category />} />
         <Route component={() => <NotFound />} />
       </Switch>
     </div>

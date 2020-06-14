@@ -1,44 +1,42 @@
 import React from 'react'
+import { Link, useParams } from 'react-router-dom'
 
-export default function CategorySort({ handleSort }) {
+export default function CategorySort({ category }) {
+  const { timespan } = useParams()
   return (
     <div className="flex flex-wrap flex-col w-full items-end bg-white">
       <ul className="flex w-full justify-center sm:justify-end">
         <li className="mr-6">
-          <button
-            type="button"
-            className="text-blue-500 hover:text-blue-700"
-            onClick={(e) => handleSort('all', e)}
+          <Link
+            to={`/${category}/all`}
+            className={`${timespan === 'all' ? 'text-blue-900' : 'text-blue-500'} `}
           >
             All
-          </button>
+          </Link>
         </li>
         <li className="mr-6">
-          <button
-            type="button"
-            className="text-blue-500 hover:text-blue-800"
-            onClick={(e) => handleSort('day', e)}
+          <Link
+            to={`/${category}/day`}
+            className={`${timespan === 'day' ? 'text-blue-900' : 'text-blue-500'} `}
           >
             Day
-          </button>
+          </Link>
         </li>
         <li className="mr-6">
-          <button
-            type="button"
-            className="text-blue-500 hover:text-blue-800"
-            onClick={(e) => handleSort('week', e)}
+          <Link
+            to={`/${category}/week`}
+            className={`${timespan === 'week' ? 'text-blue-900' : 'text-blue-500'} `}
           >
             Week
-          </button>
+          </Link>
         </li>
         <li className="mr-6">
-          <button
-            type="button"
-            className="text-blue-500 hover:text-blue-800"
-            onClick={(e) => handleSort('month', e)}
+          <Link
+            to={`/${category}/month`}
+            className={`${timespan === 'month' ? 'text-blue-900' : 'text-blue-500'} `}
           >
             Month
-          </button>
+          </Link>
         </li>
       </ul>
     </div>
