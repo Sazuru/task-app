@@ -70,17 +70,18 @@ server.get('/api/v2/categories', async (req, res) => {
 
 server.get('/api/v2/tasks/:category', (req, res) => {
   const { category } = req.params
-  const categoryName = `${category.trim()}`
+  const categoryName = category.trim()
+
   const data = db.get('tasks').get(categoryName).value()
   if (!data) {
     return res.status(404).json({ status: 'Category not found' })
   }
-  console.log(data)
   return res.json(data)
 })
 
 server.post('/api/v2/tasks/:category', (req, res) => {
   const { category } = req.params
+  const categoryName = category.trim()
   const newTask = {
     taskId: shortid.generate(),
     title: req.body.title.trim(),
@@ -89,10 +90,10 @@ server.post('/api/v2/tasks/:category', (req, res) => {
     _createdAt: Date.now(),
     _deletedAt: null
   }
-  const categoryName = `${category.trim()}`
+
   // создаём категорию, если её нет
   if (db.find(categoryName).value() === undefined) {
-    return db.get('tasks').set(`${categoryName}`, []).write()
+    return db.get('tasks').set(categoryName, []).write()
   }
 
   const getCategory = db.get('tasks').get(categoryName).value().push(newTask)
@@ -108,32 +109,49 @@ server.patch('/api/v2/tasks/:category/:id', async (req, res) => {
   const acceptableStatus = ['done', 'new', 'in progress', 'blocked']
   // получаем новый статус задачи
   const newStatus = req.body.status.trim()
-  const categoryName = `${category.trim()}`
+  const newTitle = req.body.title.trim()
+  const categoryName = category.trim()
+
+  if (newTitle.length === 0) {
+    // возвращаем ошибку
+    return res.status(406).json({ status: 'error', message: 'Incorrect title' })
+  }
+  if (db.find(categoryName).value() === undefined) {
+    return res.status(404).json({ status: 'Category not found' })
+  }
+  if (db.get('tasks').get(categoryName).find({ taskId: id }).value() === undefined) {
+    return res.status(404).json({ status: 'Task id not found' })
+  }
+
   if (acceptableStatus.includes(newStatus)) {
     db.get('tasks')
       .get(categoryName)
       .find({ taskId: id })
-      .assign({ status: `${newStatus}` })
+      .assign({ status: newStatus, title: newTitle })
       .write()
-    return res.status(200).json({ status: 'Successfully updated', newStatus, id })
+    return res.status(200).json({ status: 'Successfully updated', newStatus, newTitle, id })
   }
   // возвращаем ошибку
-  return res.status(501).json({ status: 'error', message: 'Incorrect status' })
+  return res.status(406).json({ status: 'error', message: 'Incorrect status' })
 })
 
 server.delete('/api/v2/tasks/:category/:id', async (req, res) => {
-  // берём категорию задач и нужный id
   const { category, id } = req.params
-  // берём массив прошлых задач из заданной категории или возвращаем пустой
-  const categoryName = `${category.trim()}`
+  const categoryName = category.trim()
+
+  if (db.find(categoryName).value() === undefined) {
+    return res.status(404).json({ status: 'Category not found' })
+  }
+  if (db.get('tasks').get(categoryName).find({ taskId: id }).value() === undefined) {
+    return res.status(404).json({ status: 'Task id not found' })
+  }
 
   db.get('tasks')
     .get(categoryName)
     .find({ taskId: id })
     .assign({ _isDeleted: true, _deletedAt: Date.now() })
     .write()
-  // возвращаем статус запроса и id удалённой задачи
-  res.json({ status: 'Successfully deleted', id })
+  return res.json({ status: 'Successfully deleted', id })
 })
 
 // старые методы
