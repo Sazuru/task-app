@@ -12,8 +12,15 @@ import Root from '../client/config/root'
 
 import Html from '../client/html'
 
+const lowdb = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+
+const db = lowdb(new FileSync('db.json'))
+
 const { readFile, writeFile, readdir } = require('fs').promises
 const shortid = require('shortid')
+
+db.defaults({ tasks: {} }).write()
 
 let connections = []
 
@@ -55,6 +62,36 @@ const listTasks = () => {
       })
   )
 }
+
+server.get('/api/v2/tasks/:category', (req, res) => {
+  const { category } = req.params
+  const categoryName = `${category}`
+  const data = db.get('tasks').get(categoryName).value()
+  if (!data) {
+    return res.status(404).json({ status: 'Category not found' })
+  }
+  console.log(data)
+  return res.json(data)
+})
+
+server.post('/api/v2/tasks/:category', (req, res) => {
+  const { category } = req.params
+  const newTask = {
+    taskId: shortid.generate(),
+    title: req.body.title,
+    status: 'new',
+    _isDeleted: false,
+    _createdAt: Date.now(),
+    _deletedAt: null
+  }
+  const categoryName = `${category}`
+  if (db.find(categoryName).value() === undefined) {
+    return db.get('tasks').set(`${categoryName}`, []).write()
+  }
+  const getCategory = db.get('tasks').get(categoryName).value().push(newTask)
+  db.find(categoryName).assign(getCategory).write()
+  return res.status(200).json({ status: 'success', id: newTask.taskId })
+})
 
 server.get('/api/v1/categories', async (req, res) => {
   const tasks = await listTasks()

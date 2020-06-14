@@ -69,3 +69,4 @@ yarn-error.log
 
 # misc files
 server/tasks
+db.json
