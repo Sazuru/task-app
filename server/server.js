@@ -121,6 +121,21 @@ server.patch('/api/v2/tasks/:category/:id', async (req, res) => {
   return res.status(501).json({ status: 'error', message: 'Incorrect status' })
 })
 
+server.delete('/api/v2/tasks/:category/:id', async (req, res) => {
+  // берём категорию задач и нужный id
+  const { category, id } = req.params
+  // берём массив прошлых задач из заданной категории или возвращаем пустой
+  const categoryName = `${category.trim()}`
+
+  db.get('tasks')
+    .get(categoryName)
+    .find({ taskId: id })
+    .assign({ _isDeleted: true, _deletedAt: Date.now() })
+    .write()
+  // возвращаем статус запроса и id удалённой задачи
+  res.json({ status: 'Successfully deleted', id })
+})
+
 // старые методы
 
 server.get('/api/v1/categories', async (req, res) => {
