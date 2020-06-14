@@ -72,11 +72,23 @@ server.get('/api/v2/tasks/:category', (req, res) => {
   const { category } = req.params
   const categoryName = category.trim()
 
-  const data = db.get('tasks').get(categoryName).value()
+  const data = db
+    .get('tasks')
+    .get(categoryName)
+    .value()
+    .filter((task) => task._isDeleted !== true)
   if (!data) {
     return res.status(404).json({ status: 'Category not found' })
   }
-  return res.json(data)
+  const result = data.map((task) => {
+    return Object.keys(task).reduce((acc, field) => {
+      if (field[0] === '_') {
+        return acc
+      }
+      return { ...acc, [field]: task[field] }
+    }, {})
+  })
+  return res.json(result)
 })
 
 server.post('/api/v2/tasks/:category', (req, res) => {

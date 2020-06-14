@@ -10,7 +10,7 @@ const Home = () => {
 
   // fetch list of categories
   useEffect(() => {
-    fetch(`/api/v1/categories`)
+    fetch(`/api/v2/categories`)
       .then((response) => response.json())
       .catch((e) => console.error(e))
       .then(setCategories)

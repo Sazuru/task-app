@@ -15,7 +15,7 @@ export default function Category() {
   const [addClassName, setAddClassName] = useState('text-blue-900')
 
   useEffect(() => {
-    fetch(`/api/v1/tasks/${category}`)
+    fetch(`/api/v2/tasks/${category}`)
       .then((response) => response.json())
       .catch((e) => console.error(e))
       .then(setTaskList)
@@ -41,7 +41,7 @@ export default function Category() {
       redirect: 'follow'
     }
 
-    fetch(`/api/v1/tasks/${category}`, requestOptions)
+    fetch(`/api/v2/tasks/${category}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error))
@@ -52,7 +52,7 @@ export default function Category() {
   }
 
   const handleSort = (timespan, event) => {
-    fetch(`/api/v1/tasks/${category}/${timespan}`)
+    fetch(`/api/v2/tasks/${category}/${timespan}`)
       .then((response) => response.json())
       .catch((e) => console.error(e))
       .then(setTaskList)
