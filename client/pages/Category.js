@@ -6,11 +6,10 @@ import CategoryCard from '../components/CategoryCard'
 import CategorySort from '../components/CategorySort'
 import NewTask from '../components/NewTask'
 
-export default function Category() {
+export default function Category({ refresh, setRefresh }) {
   const { category } = useParams()
   const [taskList, setTaskList] = useState([])
   const [newTask, setNewTask] = useState('')
-  const [refresh, setRefresh] = useState(false)
   const [errorName, setErrorName] = useState(false)
 
   useEffect(() => {
@@ -24,7 +23,7 @@ export default function Category() {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (newTask.length === 0) {
+    if (newTask.trim().length === 0) {
       setErrorName(true)
       return
     }

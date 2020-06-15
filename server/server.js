@@ -91,6 +91,7 @@ server.get('/api/v2/categories', async (req, res) => {
 //   return res.json(result)
 // })
 
+// Получение списка задач с возможностью фильтрации
 server.get('/api/v2/tasks/:category/:timespan', (req, res) => {
   // eslint-disable-next-line prefer-const
   let { category, timespan } = req.params
@@ -126,44 +127,34 @@ server.get('/api/v2/tasks/:category/:timespan', (req, res) => {
   return res.json(result)
 })
 
-server.get('/api/v2/tasks/:category/:timespan', (req, res) => {
-  // eslint-disable-next-line prefer-const
-  let { category, timespan } = req.params
-  const categoryName = category.trim()
-  const periodOfTime = (() => {
-    if (timespan === 'day') return 1000 * 60 * 60 * 24
-    if (timespan === 'week') return 7 * 1000 * 60 * 60 * 24
-    if (timespan === 'month') return 30 * 1000 * 60 * 60 * 24
-    if (timespan === undefined) return 'all'
-    return 'all'
-  })()
+// Создание категории
+// server.post('/api/v2/tasks/:category', (req, res) => {
+//   const { category } = req.params
+//   const categoryName = category.trim()
 
-  const data = db
-    .get('tasks')
-    .get(categoryName)
-    .value()
-    .filter(
-      (task) =>
-        task._isDeleted !== true &&
-        (periodOfTime === 'all' ? true : task._createdAt + periodOfTime > Date.now())
-    )
-  if (!data) {
-    return res.status(404).json({ status: 'Category not found' })
-  }
-  const result = data.map((task) => {
-    return Object.keys(task).reduce((acc, field) => {
-      if (field[0] === '_') {
-        return acc
-      }
-      return { ...acc, [field]: task[field] }
-    }, {})
-  })
-  return res.json(result)
-})
+//   // создаём категорию, если её нет
+//   if (categoryName.length === 0) {
+//     return res.status(406).json({ status: 'error', message: 'Incorrect category name' })
+//   }
+//   db.get('tasks').set(categoryName, []).write()
 
+//   return res.status(200).json({ status: 'Category successfully created' })
+// })
+
+// Создание новой задачи
 server.post('/api/v2/tasks/:category', (req, res) => {
   const { category } = req.params
   const categoryName = category.trim()
+
+  if (categoryName.length === 0) {
+    return res.status(406).json({ status: 'error', message: 'Incorrect category name' })
+  }
+
+  if (db.find(categoryName).value() === undefined || req.body.title === undefined) {
+    db.get('tasks').set(categoryName, []).write()
+    return res.status(200).json({ status: 'Category successfully created' })
+  }
+
   const newTask = {
     taskId: shortid.generate(),
     title: req.body.title.trim(),
@@ -174,9 +165,6 @@ server.post('/api/v2/tasks/:category', (req, res) => {
   }
 
   // создаём категорию, если её нет
-  if (db.find(categoryName).value() === undefined) {
-    return db.get('tasks').set(categoryName, []).write()
-  }
 
   const getCategory = db.get('tasks').get(categoryName).value().push(newTask)
   db.find(categoryName).assign(getCategory).write()

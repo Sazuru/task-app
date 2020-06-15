@@ -7,6 +7,7 @@ import NotFound from './404'
 
 const Home = () => {
   const [categories, setCategories] = useState([])
+  const [refresh, setRefresh] = useState(false)
 
   // fetch list of categories
   useEffect(() => {
@@ -14,14 +15,21 @@ const Home = () => {
       .then((response) => response.json())
       .catch((e) => console.error(e))
       .then(setCategories)
-  }, [])
+  }, [refresh])
 
   return (
     <div className="background w-full h-full">
       <Switch>
-        <Route exact path="/" component={() => <Categories categories={categories} />} />
-        <Route exact path="/:category" component={() => <Category />} />
-        <Route exact path="/:category/:timespan" component={() => <Category />} />
+        <Route
+          exact
+          path="/"
+          component={() => <Categories categories={categories} setRefresh={setRefresh} />}
+        />
+        <Route
+          exact
+          path={['/:category/:timespan', '/:category']}
+          component={() => <Category refresh={refresh} setRefresh={setRefresh} />}
+        />
         <Route component={() => <NotFound />} />
       </Switch>
     </div>
