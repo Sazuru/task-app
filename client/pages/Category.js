@@ -18,7 +18,7 @@ export default function Category({ refresh, setRefresh }) {
       .catch((e) => console.error(e))
       .then(setTaskList)
     setRefresh(false)
-  }, [category, refresh])
+  }, [category, setRefresh, refresh])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -49,16 +49,6 @@ export default function Category({ refresh, setRefresh }) {
     setErrorName(false)
   }
 
-  // const handleSort = (timespan, event) => {
-  //   fetch(`/api/v2/tasks/${category}/${timespan}`)
-  //     .then((response) => response.json())
-  //     .catch((e) => console.error(e))
-  //     .then(setTaskList)
-  //   setRefresh(false)
-  //   // eslint-disable-next-line no-param-reassign
-  //   event.target.className = addClassName
-  // }
-
   return (
     <div>
       <Header category={category} />
@@ -68,6 +58,7 @@ export default function Category({ refresh, setRefresh }) {
         setNewTask={setNewTask}
         handleSubmit={handleSubmit}
         error={errorName}
+        value="Task"
       />
       {taskList.length === 0 ? (
         <p className="w-full h-10 text-xl flex flex-wrap flex-col my-8 items-center bg-white sm:flex-row sm:justify-around">
@@ -92,6 +83,7 @@ export default function Category({ refresh, setRefresh }) {
             setNewTask={setNewTask}
             handleSubmit={handleSubmit}
             error={errorName}
+            value="Task"
           />
         </>
       )}

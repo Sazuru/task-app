@@ -43,6 +43,7 @@ export default function Categories({ categories, setRefresh }) {
         setNewTask={setNewCategory}
         handleSubmit={handleSubmit}
         error={errorName}
+        value="Category"
       />
       <div className="h-full flex flex-wrap flex-col items-center mb-4 mx-4 sm:flex-row sm:justify-around">
         {categories.map((category) => {
@@ -54,6 +55,7 @@ export default function Categories({ categories, setRefresh }) {
         setNewTask={setNewCategory}
         handleSubmit={handleSubmit}
         error={errorName}
+        value="Category"
       />
     </div>
   )
