@@ -12,7 +12,6 @@ export default function Category() {
   const [newTask, setNewTask] = useState('')
   const [refresh, setRefresh] = useState(false)
   const [errorName, setErrorName] = useState(false)
-  const [addClassName, setAddClassName] = useState('text-blue-900')
 
   useEffect(() => {
     fetch(`/api/v2/tasks/${category}`)
@@ -51,20 +50,20 @@ export default function Category() {
     setErrorName(false)
   }
 
-  const handleSort = (timespan, event) => {
-    fetch(`/api/v2/tasks/${category}/${timespan}`)
-      .then((response) => response.json())
-      .catch((e) => console.error(e))
-      .then(setTaskList)
-    setRefresh(false)
-    // eslint-disable-next-line no-param-reassign
-    event.target.className = addClassName
-  }
+  // const handleSort = (timespan, event) => {
+  //   fetch(`/api/v2/tasks/${category}/${timespan}`)
+  //     .then((response) => response.json())
+  //     .catch((e) => console.error(e))
+  //     .then(setTaskList)
+  //   setRefresh(false)
+  //   // eslint-disable-next-line no-param-reassign
+  //   event.target.className = addClassName
+  // }
 
   return (
     <div>
       <Header category={category} />
-      <CategorySort handleSort={handleSort} />
+      <CategorySort category={category} />
       <NewTask
         newTask={newTask}
         setNewTask={setNewTask}
@@ -94,7 +93,7 @@ export default function Category() {
             setNewTask={setNewTask}
             handleSubmit={handleSubmit}
             error={errorName}
-          />{' '}
+          />
         </>
       )}
     </div>
