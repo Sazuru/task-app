@@ -14,7 +14,7 @@ export default function Category() {
   const [errorName, setErrorName] = useState(false)
 
   useEffect(() => {
-    fetch(`/api/v2/tasks/${category}`)
+    fetch(`/api/v2/tasks/${category}/all`)
       .then((response) => response.json())
       .catch((e) => console.error(e))
       .then(setTaskList)
