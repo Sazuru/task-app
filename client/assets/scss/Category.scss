@@ -11,3 +11,11 @@ body {
 background-color: #21D4FD;
 background-image: linear-gradient(135deg, #21D4FD 0%, #B721FF 100%);
 }
+
+.button-transform {
+	transition: transform ease-out 0.3s;
+}
+
+.button-transform:hover {
+	transform: scale(1.3)	
+}

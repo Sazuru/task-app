@@ -54,7 +54,7 @@ export default function CategoryCard({ task, category, setRefresh }) {
 
   return (
     <div className="my-1 px-1 w-full sm:w-2/3 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-      <article className="overflow-hidden rounded-lg shadow-lg">
+      <article className="relative overflow-hidden rounded-lg shadow-lg">
         <span className="flex block w-full h-48 placeholder-image">
           <h2 className="font-bold md:text-3xl lg:text-4xl text-white m-auto">
             <InlineEdit text={storedTitle} onSetText={(text) => setStoredTitle(text)} />
@@ -66,6 +66,13 @@ export default function CategoryCard({ task, category, setRefresh }) {
         <footer className="flex items-center justify-between h-16 leading-none p-2 md:p-4">
           <TaskButton status={status} setStatus={setStatus} handleDelete={handleDelete} />
         </footer>
+        <form onSubmit={handleDelete}>
+          <button type="submit" className="button-transform absolute top-0 right-0 my-2 mx-3">
+            <span role="img" aria-label="Delete task button">
+              ❌
+            </span>
+          </button>
+        </form>
       </article>
     </div>
   )
