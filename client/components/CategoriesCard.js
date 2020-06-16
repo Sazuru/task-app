@@ -7,7 +7,7 @@ export default function CategoriesCard({ category }) {
       <Link to={`/${category}`} className="m-auto">
         <article className="flex flex-col overflow-hidden rounded shadow bg-white">
           <span className="flex placeholder-image block w-full h-48">
-            <div className="font-bold md:text-3xl lg:text-6xl text-white m-auto">{category}</div>
+            <h2 className="font-bold md:text-3xl lg:text-4xl text-white m-auto">{category}</h2>
           </span>
           {/* <div className="px-6 py-4">
             <div className="flex justify-between items-center overflow-hidden px-3 py-4">

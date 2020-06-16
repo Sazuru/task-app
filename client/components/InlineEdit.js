@@ -53,6 +53,7 @@ function InlineEdit(props) {
         className={`${!isInputActive ? 'block' : 'hidden'}`}
       >
         {props.text}
+        <span className="text-lg">✏</span>
       </span>
       <input
         ref={inputRef}
@@ -61,7 +62,9 @@ function InlineEdit(props) {
         onChange={(e) => {
           setInputValue(e.target.value)
         }}
-        className={`${isInputActive ? 'block' : 'hidden'}`}
+        className={`${
+          isInputActive ? 'block' : 'hidden'
+        } font-bold text-white bg-transparent m-auto`}
       />
     </span>
   )

@@ -55,16 +55,13 @@ export default function CategoryCard({ task, category, setRefresh }) {
   return (
     <div className="my-1 px-1 w-full sm:w-2/3 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
       <article className="overflow-hidden rounded-lg shadow-lg">
-        <span className="block w-full h-48 placeholder-image" />
-        <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-          <h2 className="text-lg">
-            <InlineEdit
-              className="text-black"
-              text={storedTitle}
-              onSetText={(text) => setStoredTitle(text)}
-            />
+        <span className="flex block w-full h-48 placeholder-image">
+          <h2 className="font-bold md:text-3xl lg:text-4xl text-white m-auto">
+            <InlineEdit text={storedTitle} onSetText={(text) => setStoredTitle(text)} />
           </h2>
-          <p className="text-grey-darker text-sm">status: {status}</p>
+        </span>
+        <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+          <p className="m-auto text-grey-darker text-sm">status: {status}</p>
         </header>
         <footer className="flex items-center justify-between h-16 leading-none p-2 md:p-4">
           <TaskButton status={status} setStatus={setStatus} handleDelete={handleDelete} />
