@@ -50,13 +50,15 @@ export default function Categories({ categories, setRefresh }) {
           return <CategoriesCard key={shortid.generate()} category={category} />
         })}
       </div>
-      <NewTask
-        newTask={newCategory}
-        setNewTask={setNewCategory}
-        handleSubmit={handleSubmit}
-        error={errorName}
-        value="Category"
-      />
+      {categories.length > 3 && (
+        <NewTask
+          newTask={newCategory}
+          setNewTask={setNewCategory}
+          handleSubmit={handleSubmit}
+          error={errorName}
+          value="Category"
+        />
+      )}
     </div>
   )
 }
