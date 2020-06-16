@@ -78,13 +78,15 @@ export default function Category({ refresh, setRefresh }) {
               )
             })}
           </div>
-          <NewTask
-            newTask={newTask}
-            setNewTask={setNewTask}
-            handleSubmit={handleSubmit}
-            error={errorName}
-            value="Task"
-          />
+          {taskList.length > 3 && (
+            <NewTask
+              newTask={newTask}
+              setNewTask={setNewTask}
+              handleSubmit={handleSubmit}
+              error={errorName}
+              value="Task"
+            />
+          )}
         </>
       )}
     </div>
