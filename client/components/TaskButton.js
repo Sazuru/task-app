@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react'
 
-export default function TaskButton({ status, setStatus, handleDelete }) {
+export default function TaskButton({ status, setStatus }) {
   if (status === 'new') {
     return (
       <button
@@ -44,27 +44,15 @@ export default function TaskButton({ status, setStatus, handleDelete }) {
   }
   if (status === 'blocked') {
     return (
-      <>
-        <button
-          type="button"
-          onClick={() => setStatus('in progress')}
-          className="bg-transparent hover:bg-blue-500 text-blue-700 
+      <button
+        type="button"
+        onClick={() => setStatus('in progress')}
+        className="bg-transparent hover:bg-blue-500 text-blue-700 
           font-semibold hover:text-white py-2 px-4 border 
           border-blue-500 hover:border-transparent rounded"
-        >
-          In progress
-        </button>
-        <form onSubmit={handleDelete}>
-          <button
-            type="submit"
-            className="bg-transparent hover:bg-red-500 text-gray-900 
-            border border-red-500 hover:border-transparent 
-            font-semibold py-2 px-4 rounded"
-          >
-            Delete
-          </button>
-        </form>
-      </>
+      >
+        In progress
+      </button>
     )
   }
   return (

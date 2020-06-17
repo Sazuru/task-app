@@ -6,19 +6,22 @@ import CategoryCard from '../components/CategoryCard'
 import CategorySort from '../components/CategorySort'
 import NewTask from '../components/NewTask'
 
-export default function Category({ refresh, setRefresh }) {
+export default function Category() {
   const { category } = useParams()
   const [taskList, setTaskList] = useState([])
   const [newTask, setNewTask] = useState('')
+  const [refresh, setRefresh] = useState(true)
   const [errorName, setErrorName] = useState(false)
 
   useEffect(() => {
-    fetch(`/api/v2/tasks/${category}/all`)
-      .then((response) => response.json())
-      .catch((e) => console.error(e))
-      .then(setTaskList)
-    setRefresh(false)
-  }, [category, setRefresh, refresh])
+    if (refresh) {
+      fetch(`/api/v2/tasks/${category}/all`)
+        .then((response) => response.json())
+        .catch((e) => console.error(e))
+        .then(setTaskList)
+      setRefresh(false)
+    }
+  }, [category, refresh, setRefresh])
 
   const handleSubmit = (e) => {
     e.preventDefault()

@@ -66,13 +66,15 @@ export default function CategoryCard({ task, category, setRefresh }) {
         <footer className="flex items-center justify-between h-16 leading-none p-2 md:p-4">
           <TaskButton status={status} setStatus={setStatus} handleDelete={handleDelete} />
         </footer>
-        <form onSubmit={handleDelete}>
-          <button type="submit" className="button-transform absolute top-0 right-0 my-2 mx-3">
-            <span role="img" aria-label="Delete task button">
-              ❌
-            </span>
-          </button>
-        </form>
+        <button
+          type="button"
+          onClick={(e) => handleDelete(e)}
+          className="button-transform absolute top-0 right-0 my-2 mx-3"
+        >
+          <span role="img" aria-label="Delete task button">
+            ❌
+          </span>
+        </button>
       </article>
     </div>
   )
