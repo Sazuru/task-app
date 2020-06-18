@@ -3,7 +3,7 @@ import shortid from 'shortid'
 
 import Header from '../components/Header'
 import CategoriesCard from '../components/CategoriesCard'
-import NewTask from '../components/NewTask'
+import NewTask from '../components/NewFolder'
 
 export default function Categories({ categories, setRefresh }) {
   const [newCategory, setNewCategory] = useState('')

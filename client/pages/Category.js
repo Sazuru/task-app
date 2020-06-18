@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import Header from '../components/Header'
 import CategoryCard from '../components/CategoryCard'
 import CategorySort from '../components/CategorySort'
-import NewTask from '../components/NewTask'
+import NewTask from '../components/NewFolder'
 
 export default function Category() {
   const { category } = useParams()
