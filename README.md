@@ -1,6 +1,4 @@
-# SkillCrucial React Redux boilerplate
-
-## Quick start
+# Quick start
 
 1. Clone this repo using:
   ```shell
